@@ -1,10 +1,10 @@
 class Game {
-    constructor() {
+    constructor(cannon) {
         this.startScreen = document.getElementById("game-intro")
         this.gameContainer = document.getElementById("game-container")
         this.gameScreen = document.getElementById("game-screen")
-        this.endScreen = document.getElementById("game-end")
-
+        this.endScreen = document.getElementById("game-end")    
+        this.cannon = cannon
         this.width = 600
         this.height = 400
         this.paratroopers = []
@@ -34,8 +34,9 @@ class Game {
     }
 
     gameLoop() {
-
-
+        this.frames++
+        // console.log(this.frames)
+        this.cannon.updateProjectiles()
         
         if (this.gameIsOver) {
             clearInterval(this.gameIntervalId)
