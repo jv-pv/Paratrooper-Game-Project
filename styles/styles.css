@@ -138,6 +138,7 @@ main {
     position: relative;
     background-color: lightblue;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 
@@ -173,10 +174,12 @@ main {
     height: 35px;
     background-color: rgb(91, 88, 88);
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-37%);
     z-index: 0;
+    transform-origin: bottom;
+    transition: transform 100ms;
 }
 
 #paratrooper {
@@ -185,6 +188,16 @@ main {
     background-color: brown;
     position: absolute;
     left: 50%;
+}
+
+#projectile {
+    width: 5px;
+    height: 5px;
+    background-color: blue;
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-37%);
 }
 
 /* -- Game End -- */

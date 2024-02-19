@@ -2,6 +2,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const startBtn = document.getElementById("start-btn")
     const restartBtn = document.getElementById("restart-btn")
     let game;
+    let cannon;
+    cannon = new Cannon()
 
     startBtn.addEventListener('click', () => {
         console.log("Start!")
@@ -11,7 +13,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     restartBtn.addEventListener('click', () => {
         console.log("Restart!")
-        // location.reload()
+    })
+
+    
+    document.addEventListener("keydown", (e) => {
+       
+        if (e.key === "ArrowRight") {
+            cannon.rotateRight()
+        } else if (e.key === "ArrowLeft") {
+            cannon.rotateLeft()
+        }
     })
 
 })

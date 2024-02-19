@@ -11,7 +11,7 @@ class Game {
         this.kills = 0
         this.lives = 1
         this.gameIsOver = false
-        this.gameInterval;
+        this.gameIntervalId;
         this.gameLoopFrequency = 1000/60
         this.frames = 0
     }
@@ -27,6 +27,19 @@ class Game {
         this.startScreen.style.display = "none"
         this.gameContainer.style.display = "flex"
 
+        this.gameIntervalId = setInterval(() => {
+            this.gameLoop()
+        }, this.gameLoopFrequency)
+
+    }
+
+    gameLoop() {
+
+
+        
+        if (this.gameIsOver) {
+            clearInterval(this.gameIntervalId)
+        }
 
     }
 
