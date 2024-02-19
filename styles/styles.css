@@ -1,0 +1,183 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Custom properties*/
+
+:root {
+    /* Fonts */
+    --step--2: clamp(0.69rem, calc(0.66rem + 0.16vw), 0.80rem);
+    --step--1: clamp(0.83rem, calc(0.78rem + 0.25vw), 1.00rem);
+    --step-0: clamp(1.00rem, calc(0.93rem + 0.37vw), 1.25rem);
+    --step-1: clamp(1.20rem, calc(1.09rem + 0.54vw), 1.56rem);
+    --step-2: clamp(1.44rem, calc(1.29rem + 0.76vw), 1.95rem);
+    --step-3: clamp(1.73rem, calc(1.52rem + 1.06vw), 2.44rem);
+    --step-4: clamp(2.07rem, calc(1.78rem + 1.45vw), 3.05rem);
+    --step-5: clamp(2.49rem, calc(2.09rem + 1.97vw), 3.82rem);
+    /* Colors */
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+}
+
+/* Remove list styles on ul  elements with a list role, which suggests default styling will be removed */
+ul[role='list'] {
+    list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+    font-family: 'Istok Web', sans-serif;
+    min-height: 100dvh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    background-color: rgb(225, 225, 225);
+}
+
+/* All elements that don't have a class get default styles */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* CSS RESET END */
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    background-image: url("/images/backdrop.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+#game-intro {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-intro .logo-img {
+    width: 400px;
+}
+
+#game-intro button {
+    border: none;
+    border-bottom: 3px solid black;
+    background-color: orange;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#game-intro p {
+    width: 40ch;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#game-intro .arrows-img {
+    width: 250px;
+}
+ 
+
+/* -- Game Container -- */
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-container .logo-img {
+    width: 200px;
+}
+
+#game-screen {
+    display: block;
+    width: 600px;
+    height: 400px;
+    border: 1px solid black;
+    position: relative;
+    background-color: lightblue;
+    border-radius: 5px;
+}
+
+
+#tank {
+    width: 50px;
+    height: 20px;
+    background-color: rgb(85, 72, 72);
+    position: absolute;
+    bottom: 0;
+    left: 300px;
+    transform: translateX(-50%);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: 2;
+}
+
+#turret-head {
+    width: 25px;
+    height: 25px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-45%);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    z-index: 1;
+}
+
+
+#cannon {
+    width: 5px;
+    height: 35px;
+    background-color: rgb(91, 88, 88);
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-37%);
+    z-index: 0;
+}
+
+#paratrooper {
+    width: 10px;
+    height: 10px;
+    background-color: brown;
+    position: absolute;
+    left: 50%;
+}

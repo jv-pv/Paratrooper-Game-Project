@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Turret Game</title>
+</head>
+<body>
+    <main>
+
+        <div id="game-intro">
+            <img src="./images/Paratrooper-logo-transparent.png" alt="" class="logo-img" />
+            <br />
+            <button id="start-button">Start Game</button>
+            <p>Use the left and right arrow to point the turret. Shoot down the paratroopers before they land!</p>
+            <br />
+            <img src="./images/arrows.png" alt="" class="arrows-img" />
+          </div>
+
+          <div id="game-container">
+            <img src="./images/Paratrooper-logo-transparent.png" alt="" class="logo-img" />
+            <div id="game-screen">
+                <div id="tank"></div>
+                <div id="turret-head"></div>
+                <div id="cannon"></div>
+                <div id="paratrooper"></div>
+            </div>
+          </div>
+          
+    </main>
+
+
+    <script src="./src/Game.js"></script>
+    <script src="./src/Cannon.js"></script>
+    <script src="./src/Paratroopers.js"></script>
+    <script src="./src/Projectiles.js"></script>
+</body>
+</html>
