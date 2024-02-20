@@ -38,11 +38,11 @@ class Cannon {
 
     updateProjectiles() {
 
-        console.log("ARRAy", this.projectiles)
+        console.log("Array", this.projectiles)
 
         this.projectiles.forEach((projectile, i) => {
             console.log("Projectile", projectile)
-            projectile.udpatePosition()
+            projectile.updatePosition()
         })
 
     }

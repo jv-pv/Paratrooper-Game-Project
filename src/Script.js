@@ -26,7 +26,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         if (e.code === 'Space') {
-
             console.log("Firing", cannon)
             cannon.fireCannon()
         }
