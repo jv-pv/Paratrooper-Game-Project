@@ -3,13 +3,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const restartBtn = document.getElementById("restart-btn")
     let game;
     let cannon;
-    let helicopter;
     
     startBtn.addEventListener('click', () => {
         console.log("Start!")
-        helicopter = new Helicopter()
         cannon = new Cannon()
-        game = new Game(cannon, helicopter)
+        game = new Game(cannon)
         setTimeout(() => {
             game.startGame()
         }, 250)

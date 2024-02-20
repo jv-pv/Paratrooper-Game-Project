@@ -1,11 +1,10 @@
 class Game {
-    constructor(cannon, helicopter) {
+    constructor(cannon) {
         this.startScreen = document.getElementById("game-intro")
         this.gameContainer = document.getElementById("game-container")
         this.gameScreen = document.getElementById("game-screen")
         this.endScreen = document.getElementById("game-end")    
         this.cannon = cannon
-        this.helicopter = helicopter
         this.width = 600
         this.height = 400
         this.helicoptersArr = []
@@ -37,15 +36,27 @@ class Game {
 
     gameLoop() {
         this.frames++
-        if (this.frames % 60 === 0) {
+
+        if (this.frames % 600 === 0) {
             this.helicoptersArr.push(new Helicopter(this.width))
         }
-        this.helicopter.updateHelicopter()
-        this.cannon.updateProjectiles()
+
+        this.update()
+
         
         if (this.gameIsOver) {
             clearInterval(this.gameIntervalId)
         }
+
+    }
+
+    update() {
+        this.cannon.updateProjectiles()
+
+        this.helicoptersArr.forEach(helicopter => {
+            helicopter.updateHelicopter()
+        })
+
 
     }
 

@@ -3,8 +3,8 @@ class Helicopter {
         this.width = 60
         this.height = 30
         this.gameWidth = gameWidth
-        this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 50}
-        this.speed = this.position.x < 0  ? 2 : -2
+        this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 25 + Math.random() * 100}
+        this.speed = this.position.x < 0  ? 1.25 : -1.25
 
         this.helicopterEl = document.createElement("div")
         this.helicopterEl.style.position = "absolute"
@@ -18,6 +18,7 @@ class Helicopter {
 
 
     updateHelicopter() {
+        console.log(this.position.x)
         this.position.x += this.speed
         if(this.position.x > this.gameWidth || this.position.x < -this.width) {
             this.speed *= -1
@@ -26,7 +27,7 @@ class Helicopter {
     }
 
     dropParatrooper() {
-        return new Paratroopers(this.position.x, this.position.y + this.height)
+        return new Paratrooper(this.position.x, this.position.y + this.height)
     }
 
     removeHelicopter() {
