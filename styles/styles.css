@@ -84,7 +84,7 @@ main {
     flex-direction: column;
     align-items: center;
     background-color: rgba(100, 100, 100, 0.8);
-    padding: 2rem 1rem 5rem;
+    padding: 0.5rem 1rem 3rem;
     border-radius: 5px;
     color: white;
 }
@@ -94,12 +94,24 @@ main {
 }
 
 #game-intro button {
-    border: none;
-    border-bottom: 3px solid black;
+    border: 2px solid black;
+    box-shadow: 0 5px 5px black;
     background-color: orange;
     margin: 1rem 0;
     padding: 1rem;
     border-radius: 5px;
+    font-weight: bold;
+    transition: box-shadow 150ms, background-color 250ms;
+}
+
+#game-intro button:hover {
+    background-color: rgb(255, 201, 100);
+}
+
+#game-intro button:is(:active, :focus) {
+    background-color: rgb(255, 201, 100);
+    box-shadow: 0 2px 5px transparent;
+    transform: translateY(2px);
     font-weight: bold;
 }
 
@@ -165,7 +177,7 @@ main {
 
 
 #cannon {
-    width: 5px;
+    width: 4px;
     height: 35px;
     background-color: rgb(91, 88, 88);
     position: absolute;
@@ -184,16 +196,12 @@ main {
     position: absolute;
     left: 50%;
 }
-/* 
+
 #projectile {
-    width: 5px;
-    height: 5px;
-    background-color: blue;
+    background-color: rgb(0, 0, 0);
     position: absolute;
-    left: 50%;
-    bottom: 50px;
-    transform: translateX(-37%);
-} */
+    z-index: 999;
+}
 
 /* -- Game End -- */
 

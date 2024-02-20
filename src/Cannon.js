@@ -14,7 +14,7 @@ class Cannon {
 
     rotateLeft() {
         if (this.currentAngle > this.minAngle) {
-            this.currentAngle -= 5
+            this.currentAngle -= 3
             console.log("Left", this.currentAngle)
             this.updateRotation()
         }
@@ -22,7 +22,7 @@ class Cannon {
 
     rotateRight() {
         if (this.currentAngle < this.maxAngle) {
-            this.currentAngle += 5
+            this.currentAngle += 3
             console.log("Right", this.currentAngle)
             this.updateRotation()
         }
@@ -38,11 +38,24 @@ class Cannon {
 
     updateProjectiles() {
 
-        console.log("Array", this.projectiles)
+
+        // console.log("Array length", this.projectiles.length)
 
         this.projectiles.forEach((projectile, i) => {
-            console.log("Projectile", projectile)
+            // console.log("Projectile", projectile)
             projectile.updatePosition()
+            if (projectile.left + 10 >= 600) {
+                projectile.projectile.remove()
+                this.projectiles.splice(i, 1)
+            }
+            if (projectile.left + 10 <= 0) {
+                projectile.projectile.remove()
+                this.projectiles.splice(i, 1)
+            }
+            if (projectile.top + 10 <= 0) {
+                projectile.projectile.remove()
+                this.projectiles.splice(i, 1)
+            }
         })
 
     }
