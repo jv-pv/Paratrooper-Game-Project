@@ -1,18 +1,19 @@
 class Paratrooper {
     constructor(x, y) {
-        this.width = 10
-        this.height = 20
+        this.width = 40
+        this.height = 40
         this.position = {x,y}
         this.dropSpeed = 0.5
 
         // Check if trooper has landed
         this.hasLanded = false
 
-        this.paratrooperEl = document.createElement("div")
+        this.paratrooperEl = document.createElement("img")
+        this.paratrooperEl.src = "/images/paratrooper.png"
         this.paratrooperEl.style.position = "absolute"
         this.paratrooperEl.style.width = `${this.width}px`
         this.paratrooperEl.style.height = `${this.height}px`
-        this.paratrooperEl.style.backgroundColor = "green"
+        // this.paratrooperEl.style.backgroundColor = "rgb(0, 255, 0)"
         this.paratrooperEl.style.top = `${this.position.y}px`
         this.paratrooperEl.style.left = `${this.position.x}px`
         this.paratrooperEl.style.zIndex = 999
@@ -29,7 +30,7 @@ class Paratrooper {
     }
 
     landed() {
-        return this.position.y >= 376.9
+        return this.position.y >= 355
     }
 
     remove() {
