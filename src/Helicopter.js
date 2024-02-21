@@ -31,7 +31,7 @@ class Helicopter {
         // ! If the heli exits the screen on either side it will turn back
 
         if(this.position.x > this.gameWidth || this.position.x < -this.width) {
-            // If I multiply the speed by negative one it should reverse it's direction
+            // If I multiply the speed by -1 it should reverse it's direction
             this.speed *= -1
         }
 

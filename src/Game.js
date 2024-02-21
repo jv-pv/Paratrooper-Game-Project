@@ -7,11 +7,14 @@ class Game {
         this.cannon = cannon
         this.width = 600
         this.height = 400
+
         this.helicoptersArr = []
         this.paratroopersArr = []
-        this.kills = 0
+
+        this.score = 0
         this.lives = 1
-        this.gameIsOver = false
+        this.landedParatroopers = 0
+
         this.gameIntervalId;
         this.gameLoopFrequency = 1000/60
         this.frames = 0
@@ -42,7 +45,16 @@ class Game {
 
         }
 
-        if (this.frames > 600 && this.frames % 120 == 0) {
+
+        // ! Helicopters are dropping paratroopers off screen and adding it to the count
+        // TODO Add if...else to check if heli is off screen and only drop when it's within bounds
+
+        // ! Getting an error in the console, likely due to spliced heli instances trying to access
+        // ! the drop method when they don't exist as undefined. 
+        // ? ERROR = > Game.js:54 Uncaught TypeError: Cannot read properties of undefined (reading 'dropParatrooper')
+        // TODO Add conditional to check if helis instance exists before dropping a trooper
+
+        if (this.frames > 600 && this.frames % 240 == 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
             this.paratroopersArr.push(this.helicoptersArr[randomIndex].dropParatrooper())
         }
@@ -50,7 +62,8 @@ class Game {
         this.update()
 
         
-        if (this.gameIsOver) {
+        if (this.landedParatroopers === 10) {
+            this.endGame()
             clearInterval(this.gameIntervalId)
         }
 
@@ -58,19 +71,9 @@ class Game {
 
     update() {
         this.cannon.updateProjectiles()
+        this.checkCollisions()
+        this.checkLandedParatroopers()
 
-        this.cannon.projectiles.forEach((projectile) => {
-            this.helicoptersArr.forEach((helicopter) => {
-                if (this.didCollide(projectile.projectile, helicopter.helicopterEl)) {
-                    console.log("COLLIDING!!!!")
-                }
-            })
-            this.paratroopersArr.forEach((trooper) => {
-                if (this.didCollide(projectile.projectile, trooper.paratrooperEl)) {
-                    console.log("COLLIDING!!!!")
-                }
-            })
-        })
 
         this.helicoptersArr.forEach(helicopter => {
             helicopter.updateHelicopter()
@@ -82,10 +85,54 @@ class Game {
 
     }
 
+    checkCollisions() {
+
+        this.cannon.projectiles.forEach((projectile, projectileIndex) => {
+            this.helicoptersArr.forEach((helicopter, helicopterIndex) => {
+                if (this.didCollide(projectile.projectile, helicopter.helicopterEl)) {
+
+                    console.log("COLLIDING!!!!")
+                    helicopter.removeHelicopter()
+                    this.helicoptersArr.splice(helicopterIndex,1)
+                    this.score += 2
+                    projectile.projectile.remove()
+                    this.cannon.projectiles.splice(projectileIndex,1)
+
+                }
+            })
+            this.paratroopersArr.forEach((trooper, trooperIndex) => {
+                if (this.didCollide(projectile.projectile, trooper.paratrooperEl)) {
+
+                    trooper.remove()
+                    this.paratroopersArr.splice(trooperIndex,1)
+                    this.score += 1
+                    projectile.projectile.remove()
+                    this.cannon.projectiles.splice(projectileIndex,1)
+
+                }
+            })
+        })
+        
+        console.log(this.score)
+        console.log(this.landedParatroopers)
+
+    }
+
+
+    checkLandedParatroopers() {
+        console.log("Landed!")
+        this.paratroopersArr.forEach((trooper) => {
+            if (trooper.landed() && !trooper.hasLanded) {
+                trooper.hasLanded = true
+                this.landedParatroopers += 1
+            }
+        })
+    }
 
     endGame() {
         this.gameContainer.style.display = "none"
         this.endScreen.style.display = "flex"
+        console.log("GAME OVER!")
     }
 
     didCollide(projectile, obstacle) {
@@ -98,7 +145,6 @@ class Game {
           projectileRect.top < obstacleRect.bottom &&
           projectileRect.bottom > obstacleRect.top
         ) {
-          console.log("Colliding"); 
           return true;
         } else {
           return false;

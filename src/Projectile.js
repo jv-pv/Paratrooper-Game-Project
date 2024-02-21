@@ -15,8 +15,8 @@ class Projectile {
         this.left = 295 + (xOffset + 1.20)
         this.top = 380 - yOffset
 
-        console.log("TOP", this.top, "OFFSET Y", yOffset)
-        console.log("LEFT", this.left, "OFFSET X", xOffset)
+        // console.log("TOP", this.top, "OFFSET Y", yOffset)
+        // console.log("LEFT", this.left, "OFFSET X", xOffset)
     
         this.xVelocity = Math.cos(this.angle) * 5
         this.yVelocity = Math.sin(this.angle) * 5

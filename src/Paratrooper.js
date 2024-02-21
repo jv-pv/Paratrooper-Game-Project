@@ -5,6 +5,9 @@ class Paratrooper {
         this.position = {x,y}
         this.dropSpeed = 1
 
+        // Check if trooper has landed
+        this.hasLanded = false
+
         this.paratrooperEl = document.createElement("div")
         this.paratrooperEl.style.position = "absolute"
         this.paratrooperEl.style.width = `${this.width}px`
@@ -16,12 +19,16 @@ class Paratrooper {
     }
 
     update() {
-        this.position.y += this.dropSpeed
-        this.paratrooperEl.style.top = `${this.position.y}px`
+        // If the paratrooper top postition is less than or equal to 376.9 keep descending.
+        // Once the paratrooper reaches 376.9px from the top, stop it's decent.
+        if (!this.landed()) {
+            this.position.y += this.dropSpeed
+            this.paratrooperEl.style.top = `${this.position.y}px`
+        }
     }
 
     landed() {
-        return this.position.y >= 360
+        return this.position.y >= 376.9
     }
 
     remove() {

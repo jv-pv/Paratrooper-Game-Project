@@ -203,6 +203,22 @@ main {
     z-index: 999;
 }
 
+#game-stats {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 300px;
+    height: 75px;
+    background-color: rgba(100, 100, 100, 0.8);;
+    margin: 2rem 0;
+    border-radius: 5px;
+}
+
+#game-stats h1 {
+    color: white;
+}
+
 /* -- Game End -- */
 
 

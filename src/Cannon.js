@@ -41,20 +41,20 @@ class Cannon {
 
         // console.log("Array length", this.projectiles.length)
 
-        this.projectiles.forEach((projectile, i) => {
+        this.projectiles.forEach((projectile, projectileIndex) => {
             // console.log("Projectile", projectile)
             projectile.updatePosition()
             if (projectile.left + 10 >= 600) {
                 projectile.projectile.remove()
-                this.projectiles.splice(i, 1)
+                this.projectiles.splice(projectileIndex, 1)
             }
             if (projectile.left + 10 <= 0) {
                 projectile.projectile.remove()
-                this.projectiles.splice(i, 1)
+                this.projectiles.splice(projectileIndex, 1)
             }
             if (projectile.top + 10 <= 0) {
                 projectile.projectile.remove()
-                this.projectiles.splice(i, 1)
+                this.projectiles.splice(projectileIndex, 1)
             }
         })
 
