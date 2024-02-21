@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     restartBtn.addEventListener('click', () => {
         console.log("Restart!")
+        location.reload()
     })
 
     
