@@ -3,7 +3,7 @@ class Paratrooper {
         this.width = 10
         this.height = 20
         this.position = {x,y}
-        this.dropSpeed = 1
+        this.dropSpeed = 0.5
 
         // Check if trooper has landed
         this.hasLanded = false
@@ -15,6 +15,7 @@ class Paratrooper {
         this.paratrooperEl.style.backgroundColor = "green"
         this.paratrooperEl.style.top = `${this.position.y}px`
         this.paratrooperEl.style.left = `${this.position.x}px`
+        this.paratrooperEl.style.zIndex = 999
         document.getElementById("game-screen").appendChild(this.paratrooperEl)
     }
 
