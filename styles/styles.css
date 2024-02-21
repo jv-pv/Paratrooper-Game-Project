@@ -141,7 +141,11 @@ main {
 #game-screen {
     width: 600px;
     height: 400px;
-    border: 1px solid black;
+    /* background-image: url("/images/backdrop-red.png"); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 3px solid orange;
     position: relative;
     background-color: lightblue;
     border-radius: 5px;
@@ -152,7 +156,7 @@ main {
 #tank {
     width: 50px;
     height: 20px;
-    background-color: rgb(85, 72, 72);
+    background-color: rgb(122, 111, 111);
     position: absolute;
     bottom: 0;
     left: 300px;
@@ -169,7 +173,7 @@ main {
     position: absolute;
     bottom: 10px;
     left: 50%;
-    transform: translateX(-45%);
+    transform: translateX(-40%);
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     z-index: 1;
@@ -179,11 +183,10 @@ main {
 #cannon {
     width: 4px;
     height: 35px;
-    background-color: rgb(91, 88, 88);
+    background-color: rgb(122, 111, 111);
     position: absolute;
     bottom: 15px;
     left: 50%;
-    transform: translateX(-37%);
     z-index: 0;
     transform-origin: bottom;
     transition: transform 100ms;
