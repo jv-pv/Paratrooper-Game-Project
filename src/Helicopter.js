@@ -1,23 +1,31 @@
 class Helicopter {
     constructor(gameWidth) {
-        this.width = 60
-        this.height = 30
+        this.width = 125
+        this.height = 60 
         this.gameWidth = gameWidth
 
         // ! Randomly spawn the heli on either side of the screen at a random height 
         this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 25 + Math.random() * 100}
 
         // ! Dictates the direction to move based on wich side it spawned (dictated by this.position).
-        this.speed = this.position.x < 0  ? 0.85 : -0.85
+        this.speed = this.position.x < 0  ? 0.75 : -0.75
 
-        this.helicopterEl = document.createElement("div")
-        this.helicopterEl.style.position = "absolute"
-        this.helicopterEl.style.width = `${this.width}px`
-        this.helicopterEl.style.height = `${this.height}px`
-        this.helicopterEl.style.backgroundColor = "gray"
-        this.helicopterEl.style.top = `${this.position.y}px`
-        this.helicopterEl.style.left = `${this.position.x}px`
-        document.getElementById("game-screen").appendChild(this.helicopterEl)
+        this.helicopterImg = document.createElement("img")
+
+        this.helicopterImg.src = "./images/helicopter.gif"
+
+        this.helicopterImg.style.position = "absolute"
+        this.helicopterImg.style.zIndex = "999"
+        this.helicopterImg.style.width = `${this.width}px`
+        this.helicopterImg.style.height = `${this.height}px`
+        this.helicopterImg.style.top = `${this.position.y}px`
+        this.helicopterImg.style.left = `${this.position.x}px`
+
+
+        // postive value means moving to the right, negative value means moving to the left
+        this.helicopterImg.style.transform = this.speed > 0 ? "scaleX(1)" : "scaleX(-1)"
+
+        document.getElementById("game-screen").appendChild(this.helicopterImg)
     }
 
 
@@ -33,11 +41,14 @@ class Helicopter {
         if(this.position.x > this.gameWidth || this.position.x < -this.width) {
             // If I multiply the speed by -1 it should reverse it's direction
             this.speed *= -1
+
+
+            this.helicopterImg.style.transform = `scaleX(${this.speed > 0 ? 1 : -1})`
         }
 
         // ? Update the position of the helicopter element
 
-        this.helicopterEl.style.left = `${this.position.x}px`
+        this.helicopterImg.style.left = `${this.position.x}px`
     }
 
     dropParatrooper() {
@@ -45,7 +56,7 @@ class Helicopter {
     }
 
     removeHelicopter() {
-        this.helicopterEl.remove()
+        this.helicopterImg.remove()
     }
 
 }
