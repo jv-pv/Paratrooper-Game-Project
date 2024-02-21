@@ -14,7 +14,7 @@ class Cannon {
 
     rotateLeft() {
         if (this.currentAngle > this.minAngle) {
-            this.currentAngle -= 3
+            this.currentAngle -= 5
             console.log("Left", this.currentAngle)
             this.updateRotation()
         }
@@ -22,7 +22,7 @@ class Cannon {
 
     rotateRight() {
         if (this.currentAngle < this.maxAngle) {
-            this.currentAngle += 3
+            this.currentAngle += 5
             console.log("Right", this.currentAngle)
             this.updateRotation()
         }

@@ -8,7 +8,7 @@ class Helicopter {
         this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 25 + Math.random() * 100}
 
         // ! Dictates the direction to move based on wich side it spawned (dictated by this.position).
-        this.speed = this.position.x < 0  ? 1.25 : -1.25
+        this.speed = this.position.x < 0  ? 0.85 : -0.85
 
         this.helicopterEl = document.createElement("div")
         this.helicopterEl.style.position = "absolute"
