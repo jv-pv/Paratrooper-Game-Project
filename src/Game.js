@@ -3,7 +3,12 @@ class Game {
         this.startScreen = document.getElementById("game-intro")
         this.gameContainer = document.getElementById("game-container")
         this.gameScreen = document.getElementById("game-screen")
-        this.endScreen = document.getElementById("game-end")    
+        this.endScreen = document.getElementById("game-end")   
+        this.gameScoreEl = document.getElementById("score-el")
+        this.gameLandedEl = document.getElementById("landed-el")
+        this.endScoreEl = document.getElementById("end-score")
+        this.endLandedEl = document.getElementById("end-landed")
+
         this.cannon = cannon
         this.width = 600
         this.height = 400
@@ -54,15 +59,20 @@ class Game {
         // ? ERROR = > Game.js:54 Uncaught TypeError: Cannot read properties of undefined (reading 'dropParatrooper')
         // TODO Add conditional to check if helis instance exists before dropping a trooper
 
-        if (this.frames > 600 && this.frames % 240 == 0) {
+
+        if (this.frames > 600 && this.frames % 240 === 0 && this.helicoptersArr.length > 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
-            this.paratroopersArr.push(this.helicoptersArr[randomIndex].dropParatrooper())
+            let helicopter = this.helicoptersArr[randomIndex]
+            // ! Check if the heli is within the game scrren. -heli.width => -60 and this.width => 600
+            if (helicopter.position.x > -helicopter.width && helicopter.position.x < this.width) {
+                this.paratroopersArr.push(helicopter.dropParatrooper())
+            }
         }
 
         this.update()
 
         
-        if (this.landedParatroopers === 10) {
+        if (this.landedParatroopers === 5) {
             this.endGame()
             clearInterval(this.gameIntervalId)
         }
@@ -92,9 +102,11 @@ class Game {
                 if (this.didCollide(projectile.projectile, helicopter.helicopterEl)) {
 
                     console.log("COLLIDING!!!!")
+                    this.score += 2
+
                     helicopter.removeHelicopter()
                     this.helicoptersArr.splice(helicopterIndex,1)
-                    this.score += 2
+
                     projectile.projectile.remove()
                     this.cannon.projectiles.splice(projectileIndex,1)
 
@@ -103,9 +115,11 @@ class Game {
             this.paratroopersArr.forEach((trooper, trooperIndex) => {
                 if (this.didCollide(projectile.projectile, trooper.paratrooperEl)) {
 
+                    this.score += 1
+
                     trooper.remove()
                     this.paratroopersArr.splice(trooperIndex,1)
-                    this.score += 1
+
                     projectile.projectile.remove()
                     this.cannon.projectiles.splice(projectileIndex,1)
 
@@ -115,12 +129,17 @@ class Game {
         
         console.log(this.score)
         console.log(this.landedParatroopers)
+        this.gameScoreEl.innerText = `Score: ${this.score}`
+        this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`
+
+        this.endScoreEl.innerText = `Score: ${this.score}`
+        this.endLandedEl.innerText = `Landed: ${this.landedParatroopers}`
 
     }
 
 
     checkLandedParatroopers() {
-        console.log("Landed!")
+        // console.log("Landed!")
         this.paratroopersArr.forEach((trooper) => {
             if (trooper.landed() && !trooper.hasLanded) {
                 trooper.hasLanded = true
