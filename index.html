@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/styles.css">
-    <title>Turret Game</title>
+    <title>Paratooper Web Game</title>
 </head>
 <body>
     <main>
@@ -28,14 +28,18 @@
                 <div id="paratrooper"></div>
             </div>
             <div id="game-stats">
-              <h1>Score: 0</h1>
-              <h1>Landed: 0</h1>
+              <h1 id="score-el">Score: 0</h1>
+              <h1 id="landed-el">Landed: 0</h1>
             </div>
           </section>
 
           <section id="game-end">
             <img src="./images/Paratrooper-logo-transparent.png" alt="" class="logo-img" />
             <h1>Game Over!</h1>
+            <div id="game-stats">
+              <h1 id="end-score">Score: 0</h1>
+              <h1 id="end-landed">Landed: 0</h1>
+            </div>
             <br />
             <button id="restart-btn">Restart</button>
           </section>
