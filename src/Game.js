@@ -50,12 +50,16 @@ class Game {
 
         }
 
-        // ! Before dropping, check if there are any helis in the screen and in the array/ drop troopers every 3.3 second
+
+
+        // ! Before dropping, check if there are any helis in the screen and in the array.
+        const safeZone = 75
         if (this.frames > 600 && this.frames % 200 === 0 && this.helicoptersArr.length > 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
             let helicopter = this.helicoptersArr[randomIndex]
-            // ! Check if the heli is within the game scrren. -heli.width => -125 and this.width => 600
-            if (helicopter.position.x > -helicopter.width && helicopter.position.x < this.width) {
+            // ! Check if the heli is within the game screen safe zone to avoid dropping troopers of screen or on the edge. 
+            // ! Check if the center of the helicopter is more than safeZone pixels away from the left or right edge of the game screen. 
+            if (helicopter.position.x + helicopter.width/2 > safeZone && helicopter.position.x + helicopter.width/2 < this.width - safeZone) {
                 this.paratroopersArr.push(helicopter.dropParatrooper())
             }
         }

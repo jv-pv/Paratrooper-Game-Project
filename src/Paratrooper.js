@@ -9,6 +9,7 @@ class Paratrooper {
         this.hasLanded = false
 
         this.paratrooperEl = document.createElement("img")
+        this.paratrooperEl.id = "paratrooper"
         this.paratrooperEl.src = "/images/paratrooper.png"
         this.paratrooperEl.style.position = "absolute"
         this.paratrooperEl.style.width = `${this.width}px`
