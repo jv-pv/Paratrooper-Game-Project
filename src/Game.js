@@ -50,20 +50,11 @@ class Game {
 
         }
 
-
-        // ! Helicopters are dropping paratroopers off screen and adding it to the count
-        // TODO Add if...else to check if heli is off screen and only drop when it's within bounds
-
-        // ! Getting an error in the console, likely due to spliced heli instances trying to access
-        // ! the drop method when they don't exist as undefined. 
-        // ? ERROR = > Game.js:54 Uncaught TypeError: Cannot read properties of undefined (reading 'dropParatrooper')
-        // TODO Add conditional to check if helis instance exists before dropping a trooper
-
-
-        if (this.frames > 600 && this.frames % 240 === 0 && this.helicoptersArr.length > 0) {
+        // ! Before dropping, check if there are any helis in the screen and in the array/ drop troopers every 3.3 second
+        if (this.frames > 600 && this.frames % 200 === 0 && this.helicoptersArr.length > 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
             let helicopter = this.helicoptersArr[randomIndex]
-            // ! Check if the heli is within the game scrren. -heli.width => -60 and this.width => 600
+            // ! Check if the heli is within the game scrren. -heli.width => -125 and this.width => 600
             if (helicopter.position.x > -helicopter.width && helicopter.position.x < this.width) {
                 this.paratroopersArr.push(helicopter.dropParatrooper())
             }
@@ -72,7 +63,7 @@ class Game {
         this.update()
 
         
-        if (this.landedParatroopers === 5) {
+        if (this.landedParatroopers === 6) {
             this.endGame()
             clearInterval(this.gameIntervalId)
         }
@@ -99,7 +90,7 @@ class Game {
 
         this.cannon.projectiles.forEach((projectile, projectileIndex) => {
             this.helicoptersArr.forEach((helicopter, helicopterIndex) => {
-                if (this.didCollide(projectile.projectile, helicopter.helicopterEl)) {
+                if (this.didCollide(projectile.projectile, helicopter.helicopterImg)) {
 
                     console.log("COLLIDING!!!!")
                     this.score += 2
@@ -137,7 +128,6 @@ class Game {
 
     }
 
-
     checkLandedParatroopers() {
         // console.log("Landed!")
         this.paratroopersArr.forEach((trooper) => {
@@ -147,27 +137,26 @@ class Game {
             }
         })
     }
-
-    endGame() {
-        this.gameContainer.style.display = "none"
-        this.endScreen.style.display = "flex"
-        console.log("GAME OVER!")
-    }
-
+    
     didCollide(projectile, obstacle) {
         const projectileRect = projectile.getBoundingClientRect();
         const obstacleRect = obstacle.getBoundingClientRect();
-    
+        
         if (
-          projectileRect.left < obstacleRect.right &&
-          projectileRect.right > obstacleRect.left &&
-          projectileRect.top < obstacleRect.bottom &&
-          projectileRect.bottom > obstacleRect.top
-        ) {
-          return true;
-        } else {
-          return false;
+            projectileRect.left < obstacleRect.right &&
+            projectileRect.right > obstacleRect.left &&
+            projectileRect.top < obstacleRect.bottom &&
+            projectileRect.bottom > obstacleRect.top
+            ) {
+                return true;
+            } else {
+                return false;
+            }
         }
-      }
-
+        
+        endGame() {
+            this.gameContainer.style.display = "none"
+            this.endScreen.style.display = "flex"
+            console.log("GAME OVER!")
+        }
 }
