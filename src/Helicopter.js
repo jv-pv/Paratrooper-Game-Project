@@ -8,7 +8,7 @@ class Helicopter {
         // ! Randomly spawn the heli on either side of the screen at a random height 
         this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 25 + Math.random() * 100}
 
-        // ! Dictates the direction to move based on wich side it spawned (dictated by this.position).
+        // ! Dictates the direction to move based on which side it spawned (dictated by this.position).
         this.speed = this.position.x < 0  ? 0.90 : -0.90
 
         this.helicopterImg = document.createElement("img")
