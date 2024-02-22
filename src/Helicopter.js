@@ -24,7 +24,7 @@ class Helicopter {
 
 
         // this.speed > 0; Positive value means moving to the right, negative value means moving to the left
-        this.helicopterImg.style.transform = this.speed > 0 ? "scaleX(1)" : "scaleX(-1)"
+        this.helicopterImg.style.transform = `scaleX(${this.speed > 0 ? 1 : -1})`
 
         document.getElementById("game-screen").appendChild(this.helicopterImg)
     }
@@ -54,6 +54,23 @@ class Helicopter {
 
     dropParatrooper() {
         return new Paratrooper(this.position.x + 25, this.position.y + this.height)
+    }
+
+    createExplosion() {
+        let explosionEl = document.createElement("img")
+
+        explosionEl.src = "/images/explosion.gif"
+        explosionEl.style.position = "absolute"
+        explosionEl.style.top = `${this.position.y}px`
+        explosionEl.style.left = `${this.position.x}px`
+        explosionEl.style.width = `${this.width}px`
+        explosionEl.style.height = `${this.height}px`
+
+        document.getElementById("game-screen").appendChild(explosionEl)
+
+        setTimeout(() => {
+            explosionEl.remove()
+        }, 750)
     }
 
     removeHelicopter() {

@@ -99,7 +99,8 @@ class Game {
                     console.log(helicopter.lives)
                     if (helicopter.lives === 0) {
                         this.score += 3
-    
+                        
+                        helicopter.createExplosion()
                         helicopter.removeHelicopter()
                         this.helicoptersArr.splice(helicopterIndex,1)
                         
