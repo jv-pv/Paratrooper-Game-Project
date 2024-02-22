@@ -1,0 +1,12 @@
+{
+  "name": "paratrooper-game-project",
+  "version": "1.0.5",
+  "description": "Paratrooper Web Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["game", "paratrooper", "IronHack"],
+  "author": "John Pieri",
+  "license": "ISC"
+}

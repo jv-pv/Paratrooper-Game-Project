@@ -67,8 +67,10 @@ class Game {
 
         
         if (this.landedParatroopers === 6) {
-            this.endGame()
-            clearInterval(this.gameIntervalId)
+            setTimeout(() => {
+                this.endGame()
+                clearInterval(this.gameIntervalId)
+            }, 350);
         }
 
     }
