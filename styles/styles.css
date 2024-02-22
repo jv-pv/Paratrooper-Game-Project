@@ -280,6 +280,7 @@ main {
     margin: 1rem 0;
     padding: 1rem;
     border-radius: 5px;
+    font-size: 1.4rem;
     font-weight: bold;
     transition: box-shadow 150ms, background-color 250ms;
 }
