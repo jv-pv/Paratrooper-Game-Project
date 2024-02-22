@@ -295,3 +295,34 @@ main {
     transform: translateY(2px);
     font-weight: bold;
 }
+
+@media screen and (max-height: 980px) {
+
+    #game-intro {
+        padding: 0.5rem 1rem 3rem;
+    }
+    
+    #game-intro .logo-img {
+        width: 350px;
+    }
+    
+    #game-intro button {
+        margin: 1rem 0;
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+
+    #game-intro p {
+        font-size: 1rem;
+    }
+
+    #game-intro .arrows-img {
+        width: 175px;
+    }
+    
+    #game-intro .spacebar-img {
+        width: 285px;
+        margin: 1.5rem 0 0;
+    }
+
+}
