@@ -3,7 +3,7 @@ class Paratrooper {
         this.width = 40
         this.height = 40
         this.position = {x,y}
-        this.dropSpeed = 0.5
+        this.dropSpeed = 0.6
 
         // Check if trooper has landed
         this.hasLanded = false
@@ -22,8 +22,7 @@ class Paratrooper {
     }
 
     update() {
-        // If the paratrooper top postition is less than or equal to 376.9 keep descending.
-        // Once the paratrooper reaches 376.9px from the top, stop it's decent.
+        // ? If this.landed is true (meaning the trooper has landed) flip to boolean false and skip the logic to stop it's descent. If this.landed is false (meaning the trooper is still in the air) flip the boolean to true and continue droppping.
         if (!this.landed()) {
             this.position.y += this.dropSpeed
             this.paratrooperEl.style.top = `${this.position.y}px`
