@@ -42,7 +42,7 @@ html:focus-within {
 
 /* Set core body defaults */
 body {
-    font-family: 'Istok Web', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     min-height: 100dvh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
@@ -86,6 +86,10 @@ main {
     background-color: rgba(100, 100, 100, 0.8);
     padding: 0.5rem 1rem 3rem;
     border-radius: 5px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    border: 2px solid rgba(0, 0, 0, 0.69);
+    -webkit-backdrop-filter: (blur(66.1px));
     color: white;
 }
 
@@ -164,6 +168,7 @@ main {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     z-index: 2;
+    border: 1px solid sandybrown;
 }
 
 #turret-head {
@@ -208,14 +213,15 @@ main {
     align-items: center;
     justify-content: space-around;
     width: 300px;
-    height: 75px;
-    background-color: rgba(100, 100, 100, 0.8);;
+    padding: 1.2rem 0;
     margin: 2rem 0;
+    background-color: rgba(100, 100, 100, 0.8);;
     border-radius: 5px;
 }
 
-#game-stats h1 {
+#game-stats h2 {
     color: white;
+    font-size: 1.4rem;
 }
 
 /* -- Game End -- */
@@ -228,7 +234,9 @@ main {
     align-items: center;
     width: 100%;
     height: 100dvh;
-    background-color: rgba(132, 32, 32, 0.7);
+    background-color: rgba(132, 32, 32, 0.7);   
+    box-shadow: 0 4px 30px rgba(83, 98, 114, 0.69);
+    backdrop-filter: blur(1.5px);
     color: white;
 }
 
@@ -236,11 +244,29 @@ main {
     width: 400px;
 }
 
+#game-end h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
 #game-end button {
-    border: none;
-    border-bottom: 3px solid black;
+    border: 2px solid black;
+    box-shadow: 0 5px 5px black;
     background-color: orange;
+    margin: 1rem 0;
     padding: 1rem;
     border-radius: 5px;
+    font-weight: bold;
+    transition: box-shadow 150ms, background-color 250ms;
+}
+
+#game-end button:hover {
+    background-color: rgb(255, 201, 100);
+}
+
+#game-end button:is(:active, :focus) {
+    background-color: rgb(255, 201, 100);
+    box-shadow: 0 2px 5px transparent;
+    transform: translateY(2px);
     font-weight: bold;
 }
