@@ -17,7 +17,6 @@ class Game {
         this.paratroopersArr = []
 
         this.score = 0
-        this.lives = 1
         this.landedParatroopers = 0
 
         this.gameIntervalId;
@@ -45,7 +44,7 @@ class Game {
     gameLoop() {
         this.frames++
 
-        if (this.frames % 600 === 0) {
+        if (this.frames % 320 === 0) {
             this.helicoptersArr.push(new Helicopter(this.width))
 
         }
@@ -54,7 +53,7 @@ class Game {
 
         // ! Before dropping, check if there are any helis in the screen and in the array.
         const safeZone = 75
-        if (this.frames > 600 && this.frames % 200 === 0 && this.helicoptersArr.length > 0) {
+        if (this.frames > 320 && this.frames % 120 === 0 && this.helicoptersArr.length > 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
             let helicopter = this.helicoptersArr[randomIndex]
             // ! Check if the heli is within the game screen safe zone to avoid dropping troopers of screen or on the edge. 
@@ -96,7 +95,7 @@ class Game {
             this.helicoptersArr.forEach((helicopter, helicopterIndex) => {
                 if (this.didCollide(projectile.projectile, helicopter.helicopterImg)) {
 
-                    console.log("COLLIDING!!!!")
+                    // console.log("COLLIDING!!!!")
                     this.score += 2
 
                     helicopter.removeHelicopter()
@@ -108,7 +107,7 @@ class Game {
                 }
             })
             this.paratroopersArr.forEach((trooper, trooperIndex) => {
-                if (this.didCollide(projectile.projectile, trooper.paratrooperEl)) {
+                if (this.didCollide(projectile.projectile, trooper.paratrooperEl) && !trooper.hasLanded) {
 
                     this.score += 1
 
@@ -122,8 +121,6 @@ class Game {
             })
         })
         
-        console.log(this.score)
-        console.log(this.landedParatroopers)
         this.gameScoreEl.innerText = `Score: ${this.score}`
         this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`
 
@@ -135,7 +132,14 @@ class Game {
     checkLandedParatroopers() {
         // console.log("Landed!")
         this.paratroopersArr.forEach((trooper) => {
+            // ! If trooper.hasLanded is true (meaning the trooper was already marked as landed), !trooper.hasLanded becomes false effectively skipping the logic. If trooper.hasLanded is false (the trooper hasn't been marked as landed yet), !trooper.hasLanded becomes true executing the logic.
+            // ? "if the trooper has landed AND has not yet been marked as landed"
             if (trooper.landed() && !trooper.hasLanded) {
+                trooper.paratrooperEl.src = "/images/paratrooper-landed.png"
+                trooper.paratrooperEl.style.width = "20px"
+                trooper.paratrooperEl.style.height = "20px"
+                trooper.paratrooperEl.style.top = "365px"
+
                 trooper.hasLanded = true
                 this.landedParatroopers += 1
             }
