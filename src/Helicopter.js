@@ -3,6 +3,7 @@ class Helicopter {
         this.width = 125
         this.height = 60 
         this.gameWidth = gameWidth
+        this.lives = 3
 
         // ! Randomly spawn the heli on either side of the screen at a random height 
         this.position = {x: Math.random() < 0.5 ? -this.width : gameWidth, y: 25 + Math.random() * 100}
@@ -22,7 +23,7 @@ class Helicopter {
         this.helicopterImg.style.left = `${this.position.x}px`
 
 
-        // postive value means moving to the right, negative value means moving to the left
+        // this.speed > 0; Positive value means moving to the right, negative value means moving to the left
         this.helicopterImg.style.transform = this.speed > 0 ? "scaleX(1)" : "scaleX(-1)"
 
         document.getElementById("game-screen").appendChild(this.helicopterImg)
@@ -42,7 +43,7 @@ class Helicopter {
             // If I multiply the speed by -1 it should reverse it's direction
             this.speed *= -1
 
-
+            // Make the heli element switch direction when exiting the screen
             this.helicopterImg.style.transform = `scaleX(${this.speed > 0 ? 1 : -1})`
         }
 

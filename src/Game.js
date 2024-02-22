@@ -94,13 +94,17 @@ class Game {
         this.cannon.projectiles.forEach((projectile, projectileIndex) => {
             this.helicoptersArr.forEach((helicopter, helicopterIndex) => {
                 if (this.didCollide(projectile.projectile, helicopter.helicopterImg)) {
-
                     // console.log("COLLIDING!!!!")
-                    this.score += 2
-
-                    helicopter.removeHelicopter()
-                    this.helicoptersArr.splice(helicopterIndex,1)
-
+                    helicopter.lives--
+                    console.log(helicopter.lives)
+                    if (helicopter.lives === 0) {
+                        this.score += 3
+    
+                        helicopter.removeHelicopter()
+                        this.helicoptersArr.splice(helicopterIndex,1)
+                        
+                    }
+                    
                     projectile.projectile.remove()
                     this.cannon.projectiles.splice(projectileIndex,1)
 
@@ -162,9 +166,9 @@ class Game {
             }
         }
         
-        endGame() {
-            this.gameContainer.style.display = "none"
-            this.endScreen.style.display = "flex"
-            console.log("GAME OVER!")
-        }
+    endGame() {
+        this.gameContainer.style.display = "none"
+        this.endScreen.style.display = "flex"
+        console.log("GAME OVER!")
+    }
 }
