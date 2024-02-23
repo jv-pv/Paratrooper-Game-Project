@@ -127,6 +127,10 @@ main {
     margin: 1rem 0 0;
 }
 
+#game-intro ul li {
+    white-space: pre-line;
+}
+
 #game-intro .arrows-img {
     width: 250px;
 }
@@ -140,12 +144,12 @@ main {
     font-weight: bolder;
 }
 
-.instruction-hl {
+.instruction-hl-orange {
     color: orange;
 }
 
-.instruction-hl-arrow,
-.instruction-hl-space {
+.instruction-hl-black,
+.instruction-hl-black {
     color: black;
 }
 
