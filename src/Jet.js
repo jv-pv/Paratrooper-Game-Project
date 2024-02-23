@@ -37,13 +37,13 @@ class Jet {
 
         this.position.x += this.speed
   
-        // ! If the heli exits the screen on either side it will turn back
+        // ! If the jet exits the screen on either side it will turn back
 
         if(this.position.x > this.gameWidth || this.position.x < -this.width) {
             // If I multiply the speed by -1 it should reverse it's direction
             this.speed *= -1
 
-            // Make the heli element switch direction when exiting the screen
+            // Make the jet element switch direction when exiting the screen
             this.jetImg.style.transform = `scaleX(${this.speed > 0 ? 1 : -1})`
         }
 
@@ -63,8 +63,8 @@ class Jet {
         explosionEl.style.position = "absolute"
         explosionEl.style.top = `${this.position.y}px`
         explosionEl.style.left = `${this.position.x}px`
-        explosionEl.style.width = `${this.width}px`
-        explosionEl.style.height = `${this.height}px`
+        explosionEl.style.width = `125px`
+        explosionEl.style.height = `60px`
 
         document.getElementById("game-screen").appendChild(explosionEl)
 

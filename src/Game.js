@@ -183,8 +183,8 @@ class Game {
                 bomb.remove()
                 setTimeout(() => {
                     this.endGame()
+                    clearInterval(this.gameIntervalId)
                 }, 1000);
-                clearInterval(this.gameIntervalId)
             }
         })
         
@@ -206,7 +206,7 @@ class Game {
                 trooper.paratrooperEl.style.width = "20px"
                 trooper.paratrooperEl.style.height = "20px"
                 trooper.paratrooperEl.style.top = "365px"
-                trooper.paratrooperEl.style.Zindex = "9999"
+                trooper.paratrooperEl.style.Zindex = 9
 
                 trooper.hasLanded = true
                 this.landedParatroopers += 1

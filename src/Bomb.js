@@ -9,7 +9,6 @@ class Bomb {
         this.hasLanded = false
 
         this.bombEl = document.createElement("img")
-        this.bombEl.id = "bomb"
         this.bombEl.src = "/images/jet-bomb.gif"
         this.bombEl.style.position = "absolute"
         this.bombEl.style.width = `${this.width}px`
@@ -18,7 +17,7 @@ class Bomb {
         this.bombEl.style.transform = "rotate(90deg)"
         this.bombEl.style.top = `${this.position.y}px`
         this.bombEl.style.left = `${this.position.x}px`
-        this.bombEl.style.zIndex = 9999
+        this.bombEl.style.zIndex = "9999"
         document.getElementById("game-screen").appendChild(this.bombEl)
     }
 
@@ -31,7 +30,7 @@ class Bomb {
     }
 
     landed() {
-        return this.position.y >= 345
+        return this.position.y >= 349
     }
 
     explodeBomb() {
@@ -39,8 +38,8 @@ class Bomb {
         let explosionEl = document.createElement("img")
 
         explosionEl.src = "/images/explosion.gif"
-        explosionEl.style.width = `${this.width}px`
-        explosionEl.style.height = `${this.height}px`
+        explosionEl.style.width = `125px`
+        explosionEl.style.height = `60px`
         explosionEl.style.position = "absolute"
         explosionEl.style.top = `${this.position.y}px`
         explosionEl.style.left = `${this.position.x}px`
