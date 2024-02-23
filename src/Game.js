@@ -117,7 +117,8 @@ class Game {
                 if (this.didCollide(projectile.projectile, trooper.paratrooperEl) && !trooper.hasLanded) {
 
                     this.score += 1
-
+                    
+                    trooper.explodeTrooper()
                     trooper.remove()
                     this.paratroopersArr.splice(trooperIndex,1)
 

@@ -33,6 +33,25 @@ class Paratrooper {
         return this.position.y >= 355
     }
 
+    explodeTrooper() {
+
+        let explosionEl = document.createElement("img")
+
+        explosionEl.src = "/images/splatter.gif"
+        explosionEl.style.width = `${this.width}px`
+        explosionEl.style.height = `${this.height}px`
+        explosionEl.style.position = "absolute"
+        explosionEl.style.top = `${this.position.y}px`
+        explosionEl.style.left = `${this.position.x}px`
+
+        document.getElementById("game-screen").appendChild(explosionEl)
+
+        setTimeout(() => {
+            explosionEl.remove()
+        }, 1000)
+
+    }
+
     remove() {
         this.paratrooperEl.remove()
     }

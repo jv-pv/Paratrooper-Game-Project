@@ -70,7 +70,7 @@ class Helicopter {
 
         setTimeout(() => {
             explosionEl.remove()
-        }, 750)
+        }, 1000)
     }
 
     removeHelicopter() {
