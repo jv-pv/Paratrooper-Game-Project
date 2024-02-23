@@ -66,7 +66,7 @@ class Game {
         this.update()
 
         
-        if (this.landedParatroopers === 6) {
+        if (this.landedParatroopers === 5) {
             setTimeout(() => {
                 this.endGame()
                 clearInterval(this.gameIntervalId)
