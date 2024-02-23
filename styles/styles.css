@@ -299,7 +299,7 @@ main {
 @media screen and (max-height: 980px) {
 
     #game-intro {
-        padding: 0.5rem 1rem 3rem;
+        padding: 0.5rem 1rem 1rem;
     }
     
     #game-intro .logo-img {
@@ -309,20 +309,24 @@ main {
     #game-intro button {
         margin: 1rem 0;
         padding: 1rem;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
     }
 
     #game-intro p {
         font-size: 1rem;
     }
 
+    #game-intro ul li {
+        font-size: 0.9rem;
+    }
+
     #game-intro .arrows-img {
-        width: 175px;
+        width: 150px;
     }
     
     #game-intro .spacebar-img {
-        width: 285px;
-        margin: 1.5rem 0 0;
+        width: 200px;
+        margin: 1rem 0 0;
     }
 
 }
