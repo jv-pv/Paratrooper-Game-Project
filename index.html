@@ -14,11 +14,20 @@
     <main>
 
         <section id="game-intro">
-            <img src="/images/Paratrooper-logo-transparent.png" alt="" class="logo-img" />
+            <img src="/images/Paratrooper-logo-2.png" alt="" class="logo-img" />
             <br />
             <button id="start-btn">Start Game</button>
-            <p>Use the <span class="instruction-hl">Left</span> and <span class="instruction-hl">Right</span> <span class="instruction-hl-arrow">arrow keys</span> to point the turret. Use the <span class="instruction-hl-space">spacebar</span> to fire your cannon. Shoot down the <span class="instruction-hl-objective">Helicopters</span>
-            and <span class="instruction-hl-objective">Paratroopers</span> before 5 of them land!</p>
+            <p>Use the <span class="instruction-hl-orange">Left</span> and <span class="instruction-hl-orange">Right</span> <span class="instruction-hl-black">arrow keys</span> to point the turret. Use the <span class="instruction-hl-black">Spacebar</span> to fire your cannon.
+            <ul>
+              <li>Shoot the helicopters down for <span class="instruction-hl-orange">+3</span> score.</li>
+              <li>Shoot the jets down for <span class="instruction-hl-orange">+5</span> score.</li>
+              <li>Shoot the paratroopers down for <span class="instruction-hl-orange">+1</span> score.</li>
+              <li>If a bomb lands on the ground it's <span class="instruction-hl-orange">-5</span> to your score.</li>
+              <li>If <span class="instruction-hl-orange">5</span> troopers land it's <span class="instruction-hl-black">Game Over</span>!</li>
+              <li>Shoot the jets down before they drop a bomb on your turret.</li>
+              <li>If a bomb hits your battery it's an <span class="instruction-hl-orange">instant </span><span class="instruction-hl-black">Game Over!</span></li>
+              <li><span class="instruction-hl-orange">Tip:</span> Prioritize the paratroopers and danger close bombs!</li>
+            </ul>
             <br />
             <img src="/images/arrows.png" alt="arrow-keys to point turret" class="arrows-img" />
             <img src="/images/spacebar.png" alt="spacebar to fire" class="spacebar-img">
@@ -47,9 +56,15 @@
             <br />
             <button id="restart-btn">Restart</button>
           </section>
+
+          <section class="small-screens">
+            <h1>This game is not availble on mobile devices! :(</h1>
+          </section>
           
     </main>
 
+    <script type="text/javascript" src="./src/Jet.js"></script>
+    <script type="text/javascript" src="./src/Bomb.js"></script>
     <script type="text/javascript" src="./src/Paratrooper.js"></script>
     <script type="text/javascript" src="./src/Helicopter.js"></script>
     <script type="text/javascript" src="./src/Projectile.js"></script>

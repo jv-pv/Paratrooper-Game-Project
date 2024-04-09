@@ -17,7 +17,7 @@ class Paratrooper {
         // this.paratrooperEl.style.backgroundColor = "rgb(0, 255, 0)"
         this.paratrooperEl.style.top = `${this.position.y}px`
         this.paratrooperEl.style.left = `${this.position.x}px`
-        this.paratrooperEl.style.zIndex = 999
+        this.paratrooperEl.style.zIndex = 9
         document.getElementById("game-screen").appendChild(this.paratrooperEl)
     }
 

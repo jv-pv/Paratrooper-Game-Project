@@ -122,9 +122,13 @@ main {
 
 #game-intro p {
     width: 40ch;
-    text-align: center;
+    text-align: justify;
     font-size: 1.2rem;
     margin: 1rem 0 0;
+}
+
+#game-intro ul li {
+    white-space: pre-line;
 }
 
 #game-intro .arrows-img {
@@ -140,12 +144,12 @@ main {
     font-weight: bolder;
 }
 
-.instruction-hl {
+.instruction-hl-orange {
     color: orange;
 }
 
-.instruction-hl-arrow,
-.instruction-hl-space {
+.instruction-hl-black,
+.instruction-hl-black {
     color: black;
 }
 
@@ -190,7 +194,7 @@ main {
     transform: translateX(-50%);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    z-index: 2;
+    z-index: 12;
     border: 1px solid sandybrown;
 }
 
@@ -204,7 +208,7 @@ main {
     transform: translateX(-45%);
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
-    z-index: 1;
+    z-index: 11;
     border: 1px solid sandybrown;
 }
 
@@ -218,7 +222,7 @@ main {
     bottom: 15px;
     left: 50%;
     transform: translateX(-37%);
-    z-index: 0;
+    z-index: 10;
     transform-origin: bottom;
     transition: transform 100ms;
 }
@@ -296,10 +300,21 @@ main {
     font-weight: bold;
 }
 
+.small-screens {
+    display: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    background-color: rgba(58, 62, 178, 0.7);   
+    box-shadow: 0 4px 30px rgba(83, 98, 114, 0.69);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: (blur(1.5px));
+}
+
 @media screen and (max-height: 980px) {
 
     #game-intro {
-        padding: 0.5rem 1rem 3rem;
+        padding: 0.5rem 1rem 1rem;
     }
     
     #game-intro .logo-img {
@@ -309,20 +324,37 @@ main {
     #game-intro button {
         margin: 1rem 0;
         padding: 1rem;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
     }
 
     #game-intro p {
         font-size: 1rem;
     }
 
+    #game-intro ul li {
+        font-size: 0.9rem;
+    }
+
     #game-intro .arrows-img {
-        width: 175px;
+        width: 150px;
     }
     
     #game-intro .spacebar-img {
-        width: 285px;
-        margin: 1.5rem 0 0;
+        width: 200px;
+        margin: 1rem 0 0;
     }
 
+}
+
+@media screen and (width < 600px) {
+    .small-screens {
+        display: block;
+        font-size: 0.6rem;
+    }
+
+    #game-intro,
+    #game-container,
+    #game-end {
+        display: none;
+    }
 }
