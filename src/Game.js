@@ -21,8 +21,10 @@ class Game {
         this.score = 0
         this.landedParatroopers = 0
 
-        this.gameIntervalId;
-        this.gameLoopFrequency = 1000/60
+        this.gameIsRunning = false
+        this.lastTimestamp = 0
+        this.targetFPS = 60
+        this.frameInterval = 1000 / this.targetFPS
         this.frames = 0
     }
 
@@ -37,163 +39,212 @@ class Game {
         this.startScreen.style.display = "none"
         this.gameContainer.style.display = "flex"
 
-        this.gameIntervalId = setInterval(() => {
-            this.gameLoop()
-        }, this.gameLoopFrequency)
-
+        this.gameIsRunning = true
+        this.lastTimestamp = performance.now()
+        requestAnimationFrame(this.animationLoop.bind(this))
     }
 
-    gameLoop() {
-        this.frames++
+    animationLoop(timestamp) {
+        if (!this.gameIsRunning) return;
+        
+        // Calculate elapsed time since last frame
+        const elapsed = timestamp - this.lastTimestamp;
+        const deltaTime = elapsed / (1000 / 60); // Normalize to 60 FPS
+        
+        // Only update if enough time has passed for our target frame rate
+        if (elapsed >= this.frameInterval) {
+            this.lastTimestamp = timestamp - (elapsed % this.frameInterval);
+            this.gameLoop(deltaTime);
+        }
+        
+        requestAnimationFrame(this.animationLoop.bind(this));
+    }
+
+    gameLoop(deltaTime) {
+        this.frames++;
 
         if (this.frames % 340 === 0) {
-            this.helicoptersArr.push(new Helicopter(this.width))
+            this.helicoptersArr.push(new Helicopter(this.width));
         }
         if (this.frames % 2000 === 0) {
-            this.jetArr.push(new Jet(this.width))
+            this.jetArr.push(new Jet(this.width));
         }
 
-
-
         // ! Before dropping, check if there are any helis in the screen and in the array.
-        const safeZoneHeli = 75
-        const safeZoneJet = 125
+        const safeZoneHeli = 75;
+        const safeZoneJet = 125;
         if (this.frames > 340 && this.frames % 140 === 0 && this.helicoptersArr.length > 0) {
-            let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
-            let helicopter = this.helicoptersArr[randomIndex]
+            let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length);
+            let helicopter = this.helicoptersArr[randomIndex];
             // ! Check if the heli is within the game screen safe zone to avoid dropping troopers of screen or on the edge. 
             // ! Check if the center of the helicopter is more than safeZone pixels away from the left or right edge of the game screen. 
             if (helicopter.position.x + helicopter.width/2 > safeZoneHeli && helicopter.position.x + helicopter.width/2 < this.width - safeZoneHeli) {
-                this.paratroopersArr.push(helicopter.dropParatrooper())
+                this.paratroopersArr.push(helicopter.dropParatrooper());
             }
         }
 
         if (this.frames > 2400 && this.frames % 240 === 0 && this.jetArr.length > 0) {
-            let randomIndex = Math.floor(Math.random() * this.jetArr.length)
-            let jet = this.jetArr[randomIndex]
+            let randomIndex = Math.floor(Math.random() * this.jetArr.length);
+            let jet = this.jetArr[randomIndex];
 
             if (jet.position.x + jet.width/2 > safeZoneJet && jet.position.x + jet.width/2 < this.width - safeZoneJet) {
-                this.bombArr.push(jet.dropBomb())
+                this.bombArr.push(jet.dropBomb());
             }
-
         }
 
-        this.update()
-
+        this.update(deltaTime);
         
         if (this.landedParatroopers === 5) {
             setTimeout(() => {
-                this.endGame()
-                clearInterval(this.gameIntervalId)
+                this.endGame();
             }, 350);
         }
-
     }
 
-    update() {
-        this.cannon.updateProjectiles()
-        this.checkCollisions()
-        this.checkLanded()
-
+    update(deltaTime) {
+        this.cannon.updateProjectiles(deltaTime);
+        this.checkCollisions();
+        this.checkLanded();
 
         this.helicoptersArr.forEach(helicopter => {
-            helicopter.updateHelicopter()
-        })
+            helicopter.updateHelicopter(deltaTime);
+        });
         this.paratroopersArr.forEach((troop) => {
-            troop.update()
-        })
+            troop.update(deltaTime);
+        });
         this.jetArr.forEach(jet => {
-            jet.updateJet()
-        })
+            jet.updateJet(deltaTime);
+        });
         this.bombArr.forEach(bomb => {
-            bomb.update()
-        })
-
-
+            bomb.update(deltaTime);
+        });
     }
 
     checkCollisions() {
-
-        this.cannon.projectiles.forEach((projectile, projectileIndex) => {
-            this.helicoptersArr.forEach((helicopter, helicopterIndex) => {
-                if (this.didCollide(projectile.projectile, helicopter.helicopterImg)) {
-                    // console.log("COLLIDING!!!!")
-                    helicopter.lives--
-                    console.log(helicopter.lives)
-                    if (helicopter.lives === 0) {
-                        this.score += 3
-                        
-                        helicopter.createExplosion()
-                        helicopter.removeHelicopter()
-                        this.helicoptersArr.splice(helicopterIndex,1)
-                        
-                    }
-                    
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex,1)
-
-                }
-            })
-            this.paratroopersArr.forEach((trooper, trooperIndex) => {
-                if (this.didCollide(projectile.projectile, trooper.paratrooperEl) && !trooper.hasLanded) {
-
-                    this.score += 1
-                    
-                    trooper.explodeTrooper()
-                    trooper.remove()
-                    this.paratroopersArr.splice(trooperIndex,1)
-
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex,1)
-
-                }
-            })
-            this.jetArr.forEach((jet, jetIndex) => {
-                if (this.didCollide(projectile.projectile, jet.jetImg)) {
-                    jet.lives--
-                    if (jet.lives === 0) {
-                        this.score += 5
-                        jet.createExplosion()
-                        jet.removeJet()
-                        this.jetArr.splice(jetIndex,1)
-                    }
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex, 1)
-                }
-            })
-            this.bombArr.forEach((bomb, bombIndex) => {
-                if (this.didCollide(projectile.projectile, bomb.bombEl)) {
-                    this.score += 1
-                    bomb.explodeBomb()
-                    bomb.remove()
-                    this.bombArr.splice(bombIndex, 1)
-    
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex, 1)
-                }
-            })
-        })
-
-        this.bombArr.forEach((bomb, bombIndex) => {
-            let tankEl = document.getElementById("tank")
-            if (this.didCollide(bomb.bombEl, tankEl)) {
-                console.log("Boom!")
-                bomb.explodeBomb()
-                this.bombArr.splice(bombIndex,1)
-                bomb.remove()
-                setTimeout(() => {
-                    this.endGame()
-                    clearInterval(this.gameIntervalId)
-                }, 1000);
-            }
-        })
+        // Create a copy of arrays to safely modify during iteration
+        const projectiles = [...this.cannon.projectiles];
+        const helicopters = [...this.helicoptersArr];
+        const paratroopers = [...this.paratroopersArr];
+        const jets = [...this.jetArr];
+        const bombs = [...this.bombArr];
         
-        this.gameScoreEl.innerText = `Score: ${this.score}`
-        this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`
+        // Track which projectiles have been used in collisions
+        const usedProjectiles = new Set();
 
-        this.endScoreEl.innerText = `Score: ${this.score}`
-        this.endLandedEl.innerText = `Landed: ${this.landedParatroopers}`
+        // Check projectile collisions
+        for (let i = 0; i < projectiles.length; i++) {
+            const projectile = projectiles[i];
+            if (usedProjectiles.has(i)) continue; // Skip if already used in collision
+            
+            // Get projectile bounds once
+            const projectileRect = projectile.projectile.getBoundingClientRect();
+            
+            // Check helicopter collisions
+            for (let j = 0; j < helicopters.length; j++) {
+                const helicopter = helicopters[j];
+                if (this.checkRectCollision(projectileRect, helicopter.helicopterImg.getBoundingClientRect())) {
+                    helicopter.lives--;
+                    if (helicopter.lives === 0) {
+                        this.score += 3;
+                        helicopter.createExplosion();
+                        helicopter.removeHelicopter();
+                        this.helicoptersArr.splice(this.helicoptersArr.indexOf(helicopter), 1);
+                    }
+                    
+                    projectile.deactivate();
+                    this.cannon.projectiles.splice(this.cannon.projectiles.indexOf(projectile), 1);
+                    usedProjectiles.add(i);
+                    break; // Exit loop after collision
+                }
+            }
+            if (usedProjectiles.has(i)) continue;
+            
+            // Check paratrooper collisions
+            for (let j = 0; j < paratroopers.length; j++) {
+                const trooper = paratroopers[j];
+                if (!trooper.hasLanded && this.checkRectCollision(projectileRect, trooper.paratrooperEl.getBoundingClientRect())) {
+                    this.score += 1;
+                    trooper.explodeTrooper();
+                    trooper.remove();
+                    this.paratroopersArr.splice(this.paratroopersArr.indexOf(trooper), 1);
+                    
+                    projectile.deactivate();
+                    this.cannon.projectiles.splice(this.cannon.projectiles.indexOf(projectile), 1);
+                    usedProjectiles.add(i);
+                    break;
+                }
+            }
+            if (usedProjectiles.has(i)) continue;
+            
+            // Check jet collisions
+            for (let j = 0; j < jets.length; j++) {
+                const jet = jets[j];
+                if (this.checkRectCollision(projectileRect, jet.jetImg.getBoundingClientRect())) {
+                    jet.lives--;
+                    if (jet.lives === 0) {
+                        this.score += 5;
+                        jet.createExplosion();
+                        jet.removeJet();
+                        this.jetArr.splice(this.jetArr.indexOf(jet), 1);
+                    }
+                    
+                    projectile.deactivate();
+                    this.cannon.projectiles.splice(this.cannon.projectiles.indexOf(projectile), 1);
+                    usedProjectiles.add(i);
+                    break;
+                }
+            }
+            if (usedProjectiles.has(i)) continue;
+            
+            // Check bomb collisions
+            for (let j = 0; j < bombs.length; j++) {
+                const bomb = bombs[j];
+                if (this.checkRectCollision(projectileRect, bomb.bombEl.getBoundingClientRect())) {
+                    this.score += 1;
+                    bomb.explodeBomb();
+                    bomb.remove();
+                    this.bombArr.splice(this.bombArr.indexOf(bomb), 1);
+                    
+                    projectile.deactivate();
+                    this.cannon.projectiles.splice(this.cannon.projectiles.indexOf(projectile), 1);
+                    usedProjectiles.add(i);
+                    break;
+                }
+            }
+        }
 
+        // Check bomb collisions with tank
+        const tankEl = document.getElementById("tank");
+        const tankRect = tankEl.getBoundingClientRect();
+        
+        for (let i = 0; i < bombs.length; i++) {
+            const bomb = bombs[i];
+            if (this.checkRectCollision(bomb.bombEl.getBoundingClientRect(), tankRect)) {
+                bomb.explodeBomb();
+                this.bombArr.splice(this.bombArr.indexOf(bomb), 1);
+                bomb.remove();
+                setTimeout(() => {
+                    this.endGame();
+                }, 1000);
+                break;
+            }
+        }
+        
+        // Update score displays
+        this.gameScoreEl.innerText = `Score: ${this.score}`;
+        this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`;
+        this.endScoreEl.innerText = `Score: ${this.score}`;
+        this.endLandedEl.innerText = `Landed: ${this.landedParatroopers}`;
+    }
+    
+    // Optimized collision detection function
+    checkRectCollision(rect1, rect2) {
+        return (
+            rect1.left < rect2.right &&
+            rect1.right > rect2.left &&
+            rect1.top < rect2.bottom &&
+            rect1.bottom > rect2.top
+        );
     }
 
     checkLanded() {
@@ -225,23 +276,8 @@ class Game {
         })
     }
     
-    didCollide(projectile, obstacle) {
-        const projectileRect = projectile.getBoundingClientRect();
-        const obstacleRect = obstacle.getBoundingClientRect();
-        
-        if (
-            projectileRect.left < obstacleRect.right &&
-            projectileRect.right > obstacleRect.left &&
-            projectileRect.top < obstacleRect.bottom &&
-            projectileRect.bottom > obstacleRect.top
-            ) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
     endGame() {
+        this.gameIsRunning = false
         this.gameContainer.style.display = "none"
         this.endScreen.style.display = "flex"
         console.log("GAME OVER!")

@@ -17,7 +17,7 @@ class Bomb {
         this.bombEl.style.transform = "rotate(90deg)"
         this.bombEl.style.top = `${this.position.y}px`
         this.bombEl.style.left = `${this.position.x}px`
-        this.bombEl.style.zIndex = "9999"
+        this.bombEl.style.zIndex = "9999 !important"
         document.getElementById("game-screen").appendChild(this.bombEl)
     }
 
@@ -43,6 +43,7 @@ class Bomb {
         explosionEl.style.position = "absolute"
         explosionEl.style.top = `${this.position.y}px`
         explosionEl.style.left = `${this.position.x}px`
+        explosionEl.style.zIndex = "9999 !important"  
 
         document.getElementById("game-screen").appendChild(explosionEl)
 
