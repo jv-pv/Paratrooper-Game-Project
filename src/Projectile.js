@@ -18,8 +18,8 @@ class Projectile {
         // console.log("TOP", this.top, "OFFSET Y", yOffset)
         // console.log("LEFT", this.left, "OFFSET X", xOffset)
     
-        this.xVelocity = Math.cos(this.angle) * 5
-        this.yVelocity = Math.sin(this.angle) * 5
+        this.xVelocity = Math.cos(this.angle) * 3
+        this.yVelocity = Math.sin(this.angle) * 3
     
         this.projectile.id = "projectile"
         this.projectile.style.top = `${this.top}px`

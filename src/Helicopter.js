@@ -30,12 +30,9 @@ class Helicopter {
     }
 
 
-    updateHelicopter() {
-        // console.log(this.position.x)
-
-        // ! Update the helicopter's horizontal position by its speed to make it move
-
-        this.position.x += this.speed
+    updateHelicopter(deltaTime) {
+        // Use deltaTime to adjust movement speed
+        this.position.x += this.speed * (deltaTime / 16.67); // 16.67ms is approximately 60 FPS
   
         // ! If the heli exits the screen on either side it will turn back
 

@@ -21,11 +21,11 @@ class Bomb {
         document.getElementById("game-screen").appendChild(this.bombEl)
     }
 
-    update() {
-        // ? If this.landed is true (meaning the trooper has landed) flip to boolean false and skip the logic to stop it's descent. If this.landed is false (meaning the trooper is still in the air) flip the boolean to true and continue droppping.
+    update(deltaTime) {
+        // Use deltaTime to adjust drop speed
         if (!this.landed()) {
-            this.position.y += this.dropSpeed
-            this.bombEl.style.top = `${this.position.y}px`
+            this.position.y += this.dropSpeed * (deltaTime / 16.67);
+            this.bombEl.style.top = `${this.position.y}px`;
         }
     }
 

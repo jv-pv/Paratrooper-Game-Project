@@ -15,15 +15,16 @@ class Game {
 
         this.helicoptersArr = []
         this.paratroopersArr = []
-        this.jetArr = []
-        this.bombArr = []
+        this.jetsArr = []
 
         this.score = 0
         this.landedParatroopers = 0
 
-        this.gameIntervalId;
         this.gameLoopFrequency = 1000/60
         this.frames = 0
+
+        this.lastTime = 0;
+        this.deltaTime = 0;
     }
 
 
@@ -37,79 +38,67 @@ class Game {
         this.startScreen.style.display = "none"
         this.gameContainer.style.display = "flex"
 
-        this.gameIntervalId = setInterval(() => {
-            this.gameLoop()
-        }, this.gameLoopFrequency)
-
+        // Use requestAnimationFrame instead of setInterval
+        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
 
-    gameLoop() {
-        this.frames++
+    gameLoop(timestamp) {
+        // Calculate the time difference between frames
+        this.deltaTime = timestamp - this.lastTime;
+        this.lastTime = timestamp;
 
-        if (this.frames % 340 === 0) {
-            this.helicoptersArr.push(new Helicopter(this.width))
-        }
-        if (this.frames % 2000 === 0) {
-            this.jetArr.push(new Jet(this.width))
+        this.frames++;
+
+        if (this.frames % 320 === 0) {
+            this.helicoptersArr.push(new Helicopter(this.width));
         }
 
 
 
         // ! Before dropping, check if there are any helis in the screen and in the array.
-        const safeZoneHeli = 75
-        const safeZoneJet = 125
-        if (this.frames > 340 && this.frames % 140 === 0 && this.helicoptersArr.length > 0) {
+        const safeZone = 75
+        if (this.frames > 320 && this.frames % 120 === 0 && this.helicoptersArr.length > 0) {
             let randomIndex = Math.floor(Math.random() * this.helicoptersArr.length)
             let helicopter = this.helicoptersArr[randomIndex]
             // ! Check if the heli is within the game screen safe zone to avoid dropping troopers of screen or on the edge. 
             // ! Check if the center of the helicopter is more than safeZone pixels away from the left or right edge of the game screen. 
-            if (helicopter.position.x + helicopter.width/2 > safeZoneHeli && helicopter.position.x + helicopter.width/2 < this.width - safeZoneHeli) {
+            if (helicopter.position.x + helicopter.width/2 > safeZone && helicopter.position.x + helicopter.width/2 < this.width - safeZone) {
                 this.paratroopersArr.push(helicopter.dropParatrooper())
             }
         }
 
-        if (this.frames > 2400 && this.frames % 240 === 0 && this.jetArr.length > 0) {
-            let randomIndex = Math.floor(Math.random() * this.jetArr.length)
-            let jet = this.jetArr[randomIndex]
+        this.update(this.deltaTime);
 
-            if (jet.position.x + jet.width/2 > safeZoneJet && jet.position.x + jet.width/2 < this.width - safeZoneJet) {
-                this.bombArr.push(jet.dropBomb())
-            }
+        // Batch DOM updates
+        this.updateDOM();
 
-        }
-
-        this.update()
-
-        
-        if (this.landedParatroopers === 5) {
+        if (this.landedParatroopers === 10) {
             setTimeout(() => {
-                this.endGame()
-                clearInterval(this.gameIntervalId)
+                this.endGame();
             }, 350);
+        } else {
+            // Use requestAnimationFrame for smoother animation
+            requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
         }
-
     }
 
-    update() {
-        this.cannon.updateProjectiles()
-        this.checkCollisions()
-        this.checkLanded()
-
+    update(deltaTime) {
+        // Use deltaTime to adjust movement speeds
+        this.cannon.updateProjectiles(deltaTime);
+        this.checkCollisions();
+        this.checkLandedParatroopers();
 
         this.helicoptersArr.forEach(helicopter => {
-            helicopter.updateHelicopter()
-        })
+            helicopter.updateHelicopter(deltaTime);
+        });
         this.paratroopersArr.forEach((troop) => {
-            troop.update()
-        })
-        this.jetArr.forEach(jet => {
-            jet.updateJet()
-        })
-        this.bombArr.forEach(bomb => {
-            bomb.update()
-        })
+            troop.update(deltaTime);
+        });
 
-
+        // Add this line to update jets with deltaTime
+        this.jetsArr.forEach((jet) => {
+            jet.updateJet(deltaTime);
+        });
     }
 
     checkCollisions() {
@@ -148,55 +137,11 @@ class Game {
 
                 }
             })
-            this.jetArr.forEach((jet, jetIndex) => {
-                if (this.didCollide(projectile.projectile, jet.jetImg)) {
-                    jet.lives--
-                    if (jet.lives === 0) {
-                        this.score += 5
-                        jet.createExplosion()
-                        jet.removeJet()
-                        this.jetArr.splice(jetIndex,1)
-                    }
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex, 1)
-                }
-            })
-            this.bombArr.forEach((bomb, bombIndex) => {
-                if (this.didCollide(projectile.projectile, bomb.bombEl)) {
-                    this.score += 1
-                    bomb.explodeBomb()
-                    bomb.remove()
-                    this.bombArr.splice(bombIndex, 1)
-    
-                    projectile.projectile.remove()
-                    this.cannon.projectiles.splice(projectileIndex, 1)
-                }
-            })
-        })
-
-        this.bombArr.forEach((bomb, bombIndex) => {
-            let tankEl = document.getElementById("tank")
-            if (this.didCollide(bomb.bombEl, tankEl)) {
-                console.log("Boom!")
-                bomb.explodeBomb()
-                this.bombArr.splice(bombIndex,1)
-                bomb.remove()
-                setTimeout(() => {
-                    this.endGame()
-                    clearInterval(this.gameIntervalId)
-                }, 1000);
-            }
         })
         
-        this.gameScoreEl.innerText = `Score: ${this.score}`
-        this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`
-
-        this.endScoreEl.innerText = `Score: ${this.score}`
-        this.endLandedEl.innerText = `Landed: ${this.landedParatroopers}`
-
     }
 
-    checkLanded() {
+    checkLandedParatroopers() {
         // console.log("Landed!")
         this.paratroopersArr.forEach((trooper) => {
             // ! If trooper.hasLanded is true (meaning the trooper was already marked as landed), !trooper.hasLanded becomes false effectively skipping the logic. If trooper.hasLanded is false (the trooper hasn't been marked as landed yet), !trooper.hasLanded becomes true executing the logic.
@@ -206,21 +151,9 @@ class Game {
                 trooper.paratrooperEl.style.width = "20px"
                 trooper.paratrooperEl.style.height = "20px"
                 trooper.paratrooperEl.style.top = "365px"
-                trooper.paratrooperEl.style.Zindex = 9
 
                 trooper.hasLanded = true
                 this.landedParatroopers += 1
-            }
-        })
-
-        this.bombArr.forEach((bomb, bombIndex) => {
-            if (bomb.landed() && !bomb.hasLanded) {
-
-                bomb.explodeBomb()
-                bomb.remove()
-                this.bombArr.splice(bombIndex,1)
-                bomb.hasLanded = true
-                this.score = this.score - 5
             }
         })
     }
@@ -245,5 +178,14 @@ class Game {
         this.gameContainer.style.display = "none"
         this.endScreen.style.display = "flex"
         console.log("GAME OVER!")
+    }
+
+    // New method to batch DOM updates
+    updateDOM() {
+        this.gameScoreEl.innerText = `Score: ${this.score}`;
+        this.gameLandedEl.innerText = `Landed: ${this.landedParatroopers}`;
+
+        this.endScoreEl.innerText = `Score: ${this.score}`;
+        this.endLandedEl.innerText = `Landed: ${this.landedParatroopers}`;
     }
 }

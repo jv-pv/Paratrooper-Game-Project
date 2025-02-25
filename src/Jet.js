@@ -30,13 +30,10 @@ class Jet {
     }
 
 
-    updateJet() {
-        // console.log(this.position.x)
+    updateJet(deltaTime) {
+        // Use deltaTime to adjust movement speed
+        this.position.x += this.speed * (deltaTime / 16.67);
 
-        // ! Update the jet's horizontal position by its speed to make it move
-
-        this.position.x += this.speed
-  
         // ! If the jet exits the screen on either side it will turn back
 
         if(this.position.x > this.gameWidth || this.position.x < -this.width) {
