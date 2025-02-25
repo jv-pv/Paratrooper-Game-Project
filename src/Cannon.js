@@ -3,14 +3,14 @@ class Cannon {
         this.cannonEl = document.getElementById("cannon")
         
         this.currentAngle = 0
-        this.minAngle = -60
-        this.maxAngle = 60
+        this.minAngle = -70
+        this.maxAngle = 70
 
         this.projectiles = []
         
         // Add debounce properties
         this.canFire = true
-        this.fireDelay = 500 // 500ms delay between shots
+        this.fireDelay = 350 // 500ms delay between shots
         this.lastFireTime = 0
         
         // Create cooldown indicator
